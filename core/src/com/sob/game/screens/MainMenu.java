@@ -197,7 +197,7 @@ public class MainMenu implements Screen
 				stage.addAction(Actions.fadeOut(1));
 				swordDraw.play(1.0f);
 				
-				((Game)Gdx.app.getApplicationListener()).setScreen(new FightScreen());
+				//((Game)Gdx.app.getApplicationListener()).setScreen();
 			}
 			
 			else if(buttonName.equals("Options"))
