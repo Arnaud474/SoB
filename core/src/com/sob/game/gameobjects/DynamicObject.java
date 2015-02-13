@@ -43,8 +43,10 @@ public class DynamicObject extends GameObject
 		BodyDef bdef = new BodyDef();
 		bdef.position.set(position);
 		bdef.type = BodyType.DynamicBody;
+		bdef.bullet = true;
 		body = w.createBody(bdef);
 		
+		body.setSleepingAllowed(false);
 		
 		System.out.println("W : " + width + "H : " + height);
 		
@@ -63,7 +65,7 @@ public class DynamicObject extends GameObject
 		
 		FixtureDef circFixtDef = new FixtureDef();
 		circFixtDef.shape = circShape1;
-		body.createFixture(circFixtDef).setUserData("hero");
+		body.createFixture(circFixtDef).setUserData("head");
 		
 		//Creation of the circle fixture (Bottom of the capsule)
 		CircleShape circShape2 = new CircleShape();
@@ -88,7 +90,6 @@ public class DynamicObject extends GameObject
 		rectShape2.dispose();
 		circShape1.dispose();
 		circShape2.dispose();
-		
 	}
 	
 	

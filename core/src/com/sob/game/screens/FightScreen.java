@@ -3,6 +3,7 @@ package com.sob.game.screens;
 import static com.sob.game.B2DVars.PPM;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -25,13 +26,14 @@ import com.sob.managers.GameKeys;
 import com.sob.managers.MyInputProcessor;
 import com.sob.game.gameobjects.DynamicObject;
 import com.sob.game.gameobjects.Hero;
+import com.sob.game.gameobjects.MapT;
 import com.sob.game.gameobjects.StaticObject;
-import com.sob.managers.InputController;
 
 
 public class FightScreen implements Screen 
 {
 	private World world;
+	private MapT map;
 	private Box2DDebugRenderer b2dr;
 	private OrthographicCamera cam;
 	private ArrayList<Hero> heros = new ArrayList<Hero>();
@@ -43,94 +45,28 @@ public class FightScreen implements Screen
 	@Override
 	public void show() 
 	{
+		//Creation du world box2D
 		world = new World(new Vector2(0, -9.8f), true);
+		//Creation du renderer box2D
 		b2dr = new Box2DDebugRenderer();
+		//Creation d'une camera orthogonale
 		cam = new OrthographicCamera(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM);
 		
-		
-		hero = new Hero(0, 60, 20, 50);
+		//Creation du personnage principal
+		hero = new Hero(200, 200, 20, 50);
 		hero.setBody(world);
 		heros.add(hero);
 		
-		hero = new Hero(20, 20, 20, 50);
-		hero.setBody(world);
-		heros.add(hero);
+		//Generation de la map et de son renderer
+		map = new MapT(world, "map/map1.tmx", cam);
+		map.generateB2DObjects();
+		map.generateTiledMapRenderer();
 		
-		StaticObject floor = new StaticObject(0, -300, 3000, 100);
-		floor.setBody(world);
-		
-		floor = new StaticObject(3000, -300, 50, 500);
-		floor.setBody(world);
-		
-		
-		
+		//Assignation du contact listener pour les collisions
 		world.setContactListener(new B2DContactListener(heros));
 		
-		
+		//Assignation du input processor pour gerer les keypress
 		Gdx.input.setInputProcessor(new MyInputProcessor(cam));
-		
-		
-		/*Gdx.input.setInputProcessor(new InputController(){
-			
-
-			@Override
-			public boolean scrolled(int amount) 
-			{
-				cam.zoom += amount / 25f;
-				return true;
-			}
-
-			@Override
-			public boolean keyUp(int keycode) 
-			{
-				switch(keycode)
-				{
-					case Keys.W:
-						movement.y = 0; 
-						break;
-		
-					case Keys.A:
-						movement.x = 0;
-						break;
-		
-					case Keys.S:
-						movement.y = 0;
-						break;
-				
-					case Keys.D:
-						movement.x = 0;
-						break;
-				}
-				return true;
-			}
-
-			@Override
-			public boolean keyDown(int keycode) 
-			{
-				switch(keycode)
-				{
-					case Keys.W:
-						break;
-				
-					case Keys.A:
-						movement.x = -speed;
-						break;
-				
-					case Keys.S:
-						movement.y = -speed;
-						break;
-						
-					case Keys.D:
-						movement.x = speed;
-						break;
-				}
-				
-				return true;
-			}
-			
-				
-		});*/
-		
 	}
 
 	@Override
@@ -154,6 +90,8 @@ public class FightScreen implements Screen
 		
 		//Render du world pour qu'on puisse voir les bodies
 		b2dr.render(world, cam.combined);
+		//map.getRenderer().render();
+		
 	}
 
 	@Override

@@ -46,6 +46,7 @@ public class StaticObject extends GameObject
 		shape.setAsBox(width, height);
 		
 		FixtureDef fdef = new FixtureDef();
+		fdef.friction = 0;
 		fdef.shape = shape;
 		body.createFixture(fdef).setUserData("ground");
 	}
