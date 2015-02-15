@@ -3,12 +3,14 @@ package com.sob.managers;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.math.Vector2;
+import com.sob.game.gameobjects.Hero;
 
 public class MyInputProcessor extends InputAdapter
 {
-	private OrthographicCamera cam;
+	private DynamicCamera cam;
 	
-	public MyInputProcessor(OrthographicCamera cam) 
+	public MyInputProcessor(DynamicCamera cam) 
 	{
 		this.cam = cam;
 	}

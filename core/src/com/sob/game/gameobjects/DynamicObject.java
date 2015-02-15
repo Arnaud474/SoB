@@ -12,7 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 public class DynamicObject extends GameObject
 {
-	protected final Vector2 MAX_VELOCITY = new Vector2(18f, 18f);
+	public final Vector2 MAX_VELOCITY = new Vector2(10f, 10f);
 	
 	public DynamicObject(float x, float y, float w, float h) 
 	{
@@ -52,39 +52,59 @@ public class DynamicObject extends GameObject
 		
 		//Creation of the rectangle fixture (Middle of the capsule)
 		PolygonShape rectShape = new PolygonShape();
-		rectShape.setAsBox(width-0.04f, height-((width)), new Vector2(position.x + 0.01f, position.y), 0);
+		rectShape.setAsBox(width-0.04f, height-((width)), new Vector2(0.01f, 0), 0);
 		
 		FixtureDef rectFixtDef = new FixtureDef();
+		rectFixtDef.friction = 0;
 		rectFixtDef.shape = rectShape;
-		body.createFixture(rectFixtDef).setUserData("hero");
+		body.createFixture(rectFixtDef).setUserData("torso");
 		
 		//Creation of the circle fixture (Top of the capsule)
 		CircleShape circShape1 = new CircleShape();
 		circShape1.setRadius(width);
-		circShape1.setPosition(new Vector2(position.x, position.y+(height-width)));
+		circShape1.setPosition(new Vector2(0, (height-width)));
 		
 		FixtureDef circFixtDef = new FixtureDef();
+		circFixtDef.friction = 0;
 		circFixtDef.shape = circShape1;
 		body.createFixture(circFixtDef).setUserData("head");
 		
 		//Creation of the circle fixture (Bottom of the capsule)
 		CircleShape circShape2 = new CircleShape();
 		circShape2.setRadius(width);
-		circShape2.setPosition(new Vector2(position.x, position.y-(height-width)));
+		circShape2.setPosition(new Vector2(0, -(height-width)));
 				
 		circFixtDef = new FixtureDef();
+		circFixtDef.friction = 0f;
 		circFixtDef.shape = circShape2;
-		body.createFixture(circFixtDef).setUserData("hero");
+		body.createFixture(circFixtDef).setUserData("legs");
 		
 		//Sensor for the foot
 		PolygonShape rectShape2 = new PolygonShape();
-		rectShape2.setAsBox(width/2, width/4, new Vector2(position.x, position.y-height), 0);
+		rectShape2.setAsBox(width/2, width/4, new Vector2(0, -height), 0);
 		
 		FixtureDef rectFixtDef2 = new FixtureDef();
 		rectFixtDef2.shape = rectShape2;
 		rectFixtDef2.isSensor = true;
 		body.createFixture(rectFixtDef2).setUserData("foot");
 		
+		//Test friction
+		rectShape2 = new PolygonShape();
+		rectShape2.setAsBox(width/16, width/16, new Vector2(0, -height+(width/16)), 0);
+		
+		rectFixtDef2 = new FixtureDef();
+		rectFixtDef2.friction = 1f;
+		rectFixtDef2.shape = rectShape2;
+		body.createFixture(rectFixtDef2).setUserData("friction");
+		
+		//Centre
+		rectShape2 = new PolygonShape();
+		rectShape2.setAsBox(width/16, width/16, new Vector2(0,0), 0);
+		
+		rectFixtDef2 = new FixtureDef();
+		rectFixtDef2.isSensor = true;
+		rectFixtDef2.shape = rectShape2;
+		body.createFixture(rectFixtDef2).setUserData("center");
 		
 		rectShape.dispose();
 		rectShape2.dispose();

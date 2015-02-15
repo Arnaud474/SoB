@@ -5,15 +5,15 @@
  </tileset>
  <layer name="tiles" width="50" height="25">
   <data encoding="base64" compression="zlib">
-   eJzt0csKACAIBVH9/59uL0T0EO6NOeA2GcuIyPCVZVzRoYUOLXRooUMLHVro0EKHFjq0dHTUN1fTsdPVrGP3pi9ucLPz9/9wc/KXTP8MxlgA5w==
+   eJzt0kEKACAIAEH9/6e7ewkqYY0d8JoulBGRMVeWmcoOFjtY7GCxg8UOFjtY7GCxg6Wjo765m46dp7e8uOdmp/+K5dcOhzEL2qgA5w==
   </data>
  </layer>
  <objectgroup name="walls">
   <object type="wall" x="0" y="0" width="128" height="1600"/>
   <object type="wall" x="3072" y="0" width="128" height="1600"/>
   <object x="128" y="1472" width="2944" height="128"/>
-  <object x="256" y="1280" width="832" height="64"/>
-  <object x="2112" y="1280" width="832" height="64"/>
+  <object x="256" y="1216" width="832" height="64"/>
+  <object x="2112" y="1216" width="832" height="64"/>
   <object x="1216" y="1152" width="768" height="64"/>
  </objectgroup>
 </map>

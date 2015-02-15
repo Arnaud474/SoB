@@ -25,6 +25,7 @@ public class B2DContactListener implements ContactListener
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();
 		
+		//Si l'une des fixtures est le foot et l'autre le ground
 		if(fa.getUserData().equals("foot") && fb.getUserData().equals("ground"))
 		{
 			if(fa.getBody().equals(heros.get(0).getBody()))
@@ -49,6 +50,8 @@ public class B2DContactListener implements ContactListener
 				System.out.println("Nope");
 			}
 		}
+		
+		
 	}
 
 	@Override
@@ -57,11 +60,13 @@ public class B2DContactListener implements ContactListener
 		Fixture fa = contact.getFixtureA();
 		Fixture fb = contact.getFixtureB();
 		
+		//Si l'une des fixtures est le foot et l'autre le ground
 		if(fa.getUserData().equals("foot") && fb.getUserData().equals("ground"))
 		{
 			if(fa.getBody().equals(heros.get(0).getBody()))
 			{
 				System.out.println("Le hero principal ne touche plus au sol");
+				heros.get(0).getBody().setLinearDamping(0);
 				heros.get(0).isGrounded = false;
 			}
 			else
@@ -76,6 +81,7 @@ public class B2DContactListener implements ContactListener
 			if(fb.getBody().equals(heros.get(0).getBody()))
 			{
 				System.out.println("Le hero principal ne touche plus au sol");
+				heros.get(0).getBody().setLinearDamping(0);
 				heros.get(0).isGrounded = false;
 			}
 			else

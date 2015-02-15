@@ -22,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.FixtureDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.sob.managers.B2DContactListener;
+import com.sob.managers.DynamicCamera;
 import com.sob.managers.GameKeys;
 import com.sob.managers.MyInputProcessor;
 import com.sob.game.gameobjects.DynamicObject;
@@ -35,12 +36,12 @@ public class FightScreen implements Screen
 	private World world;
 	private MapT map;
 	private Box2DDebugRenderer b2dr;
-	private OrthographicCamera cam;
+	private DynamicCamera cam;
 	private ArrayList<Hero> heros = new ArrayList<Hero>();
 	private Hero hero;
 	private Vector2 movement = new Vector2();
-	private float speed = 50;
-	private float jump = 500;
+	private float speed = 8;
+	private float jump = 10;
 
 	@Override
 	public void show() 
@@ -50,10 +51,14 @@ public class FightScreen implements Screen
 		//Creation du renderer box2D
 		b2dr = new Box2DDebugRenderer();
 		//Creation d'une camera orthogonale
-		cam = new OrthographicCamera(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM);
+		cam = new DynamicCamera(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM);
 		
 		//Creation du personnage principal
-		hero = new Hero(200, 200, 20, 50);
+		hero = new Hero(200, 100, 32, 64);
+		hero.setBody(world);
+		heros.add(hero);
+		
+		hero = new Hero(200, 100, 32, 64);
 		hero.setBody(world);
 		heros.add(hero);
 		
@@ -76,7 +81,7 @@ public class FightScreen implements Screen
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		
 		//Fait avancer le world
-		world.step(delta, 6, 2);
+		world.step(1/60f, 6, 2);
 	
 		//S'occupe de gerer le input du joueur
 		handleInput();
@@ -85,12 +90,15 @@ public class FightScreen implements Screen
 		GameKeys.update();
 		
 		//Positionnement de la camera en fonction du hero
-		cam.position.set(heros.get(0).getPosition().x, heros.get(0).getPosition().y, 0);
+		//System.out.println(heros.get(0).getBody().getPosition().x +", "+ heros.get(0).getBody().getPosition().y);
+		//Affichage de la position en bas a gauche de la camera
+		cam.dynamicMovement(heros);
+		//cam.position.set(heros.get(0).getBody().getPosition().x, heros.get(0).getBody().getPosition().y, 0);
 		cam.update();
 		
 		//Render du world pour qu'on puisse voir les bodies
 		b2dr.render(world, cam.combined);
-		//map.getRenderer().render();
+		map.getRenderer().render();
 		
 	}
 
@@ -136,24 +144,39 @@ public class FightScreen implements Screen
 			if(heros.get(0).isGrounded)
 			{
 				System.out.println("Jump");
-				heros.get(0).getBody().applyForceToCenter(0, jump, true);
+				heros.get(0).getBody().setLinearVelocity(heros.get(0).getBody().getLinearVelocity().x, jump);
+				//heros.get(0).getBody().applyForceToCenter(0, jump, true);
 			}
 		}
 		
 		else if(GameKeys.isDown(GameKeys.A))
 		{
-			heros.get(0).getBody().applyForceToCenter(-speed, 0, true);
-		}
-		
-		else if(GameKeys.isDown(GameKeys.S))
-		{
-			heros.get(0).getBody().applyForceToCenter(0, -speed, true);
+			heros.get(0).getBody().setLinearVelocity(-speed, heros.get(0).getBody().getLinearVelocity().y);
+			//heros.get(0).getBody().applyForceToCenter(-speed, 0, true);
 		}
 		
 		else if(GameKeys.isDown(GameKeys.D))
 		{
-			heros.get(0).getBody().applyForceToCenter(speed, 0, true);
+			heros.get(0).getBody().setLinearVelocity(speed, heros.get(0).getBody().getLinearVelocity().y);
+			//heros.get(0).getBody().applyForceToCenter(speed, 0, true);
 		}
+		
+		else if(GameKeys.isDown(GameKeys.S))
+		{
+			heros.get(0).getBody().applyForceToCenter(0, -speed/2, true);
+		}
+		
+		
+		
+		/*//Pour regarder si la velocite maximum est atteinte
+		if(heros.get(0).getBody().getLinearVelocity().x > heros.get(0).MAX_VELOCITY.x)
+		{
+			heros.get(0).getBody().setLinearVelocity(heros.get(0).MAX_VELOCITY.x, heros.get(0).getBody().getLinearVelocity().y);
+		}
+		else if(heros.get(0).getBody().getLinearVelocity().x < -heros.get(0).MAX_VELOCITY.x)
+		{
+			heros.get(0).getBody().setLinearVelocity(-heros.get(0).MAX_VELOCITY.x, heros.get(0).getBody().getLinearVelocity().y);
+		}*/
 	}
 
 }
