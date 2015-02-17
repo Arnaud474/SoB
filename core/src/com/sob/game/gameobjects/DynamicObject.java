@@ -31,8 +31,6 @@ public class DynamicObject extends GameObject
 		
 		body.setSleepingAllowed(false);
 		
-		System.out.println("W : " + width + "H : " + height);
-		
 		//Creation of the rectangle fixture (Middle of the capsule)
 		PolygonShape rectShape = new PolygonShape();
 		rectShape.setAsBox(width-0.04f, height-((width)), new Vector2(0.01f, 0), 0);

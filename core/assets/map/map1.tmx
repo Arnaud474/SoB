@@ -5,7 +5,7 @@
  </tileset>
  <layer name="tiles" width="50" height="25">
   <data encoding="base64" compression="zlib">
-   eJztlUEKACAIBPX/n+4uHSoSdmUG9tIhG0zMiMjwJUtcwUMLPLTAQws8tJjuUc9P8vstNzWn98MNPM7v7J6rXU1X8NCC/aEFHlq8/EnSnwUJUgEB
+   eJztlcEJADAIxHT/pbuCtBSjJHBfS1B6GRFpcJmKHiz0YPHDo+NvcR8stnt0dOjLm9v3MQ096jPtjzp6sLA/WOjB4uYmzf8ca5sBaQ==
   </data>
  </layer>
  <objectgroup name="walls">
@@ -17,5 +17,13 @@
   <object x="1216" y="960" width="768" height="64"/>
   <object x="256" y="704" width="832" height="64"/>
   <object x="2112" y="704" width="832" height="64"/>
+  <object x="128" y="0" width="2944" height="128"/>
+  <object x="1216" y="448" width="768" height="64"/>
+ </objectgroup>
+ <objectgroup name="spawn">
+  <object x="576" y="960" width="64" height="64"/>
+  <object x="576" y="448" width="64" height="64"/>
+  <object x="2560" y="960" width="64" height="64"/>
+  <object x="2560" y="448" width="64" height="64"/>
  </objectgroup>
 </map>

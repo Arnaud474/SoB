@@ -15,7 +15,11 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.FixtureDef;
+import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 
 public class MapT
 {
@@ -45,14 +49,22 @@ public class MapT
 		for(MapObject obj: objects)
 		{
 			RectangleMapObject rect = (RectangleMapObject) obj;
-			System.out.println("X : "+rect.getRectangle().x+" Y : "+rect.getRectangle().y);
-			System.out.println("W : "+rect.getRectangle().width+" H : "+rect.getRectangle().height);
 			StaticObject floor = new StaticObject(rect.getRectangle().x+(rect.getRectangle().width/2), rect.getRectangle().y+(rect.getRectangle().height/2), rect.getRectangle().width/2, rect.getRectangle().height/2);
 			floor.setBody(world);
 		}
 		
-		StaticObject floor = new StaticObject(0, 0, 1, 1);
-		floor.setBody(world);
+		/*//Pour obtenir le layer de spawn points
+		layer = map.getLayers().get("spawn");
+		
+		//Pour obtenir tout les objets qui sont dans le layer 
+		objects = layer.getObjects();
+		
+		for(MapObject obj: objects)
+		{
+			RectangleMapObject rect = (RectangleMapObject) obj;
+			StaticObject floor = new StaticObject(rect.getRectangle().x+(rect.getRectangle().width/2), rect.getRectangle().y+(rect.getRectangle().height/2), rect.getRectangle().width/2, rect.getRectangle().height/2);
+			floor.setBody(world);
+		}*/
 	}
 	
 	//Generate map renderer
