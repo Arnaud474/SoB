@@ -51,7 +51,6 @@ public class DynamicCamera extends OrthographicCamera
 		position.y = (maxY - minY)/2 + minY;
 	
 		
-		
 		float newZoomX = (maxX - minX + offsetX) / viewportWidth;
 		float newZoomY = (maxY - minY + offsetY) / viewportHeight;
 		
@@ -77,19 +76,7 @@ public class DynamicCamera extends OrthographicCamera
 				zoom = newZoomY;
 			}
 		}
-		
-		
-		//Does not work
-		/*if((maxX - minX) < 20f)
-			viewportWidth = 20f;
-		else
-			viewportWidth = maxX - minX;
-		
-		if((maxY - minY) < 11.25f)
-			viewportHeight = 11.25f;
-		else	
-			viewportHeight = maxY - minY;*/
-		
+			
 	}
 	
 }

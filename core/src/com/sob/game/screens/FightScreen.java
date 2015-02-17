@@ -3,6 +3,7 @@ package com.sob.game.screens;
 import static com.sob.game.B2DVars.PPM;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.badlogic.gdx.Game;
@@ -28,6 +29,7 @@ import com.sob.managers.MyInputProcessor;
 import com.sob.game.gameobjects.DynamicObject;
 import com.sob.game.gameobjects.Hero;
 import com.sob.game.gameobjects.MapT;
+import com.sob.game.gameobjects.Skill;
 import com.sob.game.gameobjects.StaticObject;
 
 
@@ -38,9 +40,10 @@ public class FightScreen implements Screen
 	private Box2DDebugRenderer b2dr;
 	private DynamicCamera cam;
 	private ArrayList<Hero> heros = new ArrayList<Hero>();
+	private HashMap<String, Skill> skills = new HashMap<String, Skill>();
 	private Hero hero;
 	private Vector2 movement = new Vector2();
-	private float speed = 8;
+	private float speed = 5;
 	private float jump = 10;
 
 	@Override
@@ -54,11 +57,15 @@ public class FightScreen implements Screen
 		cam = new DynamicCamera(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM);
 		
 		//Creation du personnage principal
-		hero = new Hero(200, 100, 32, 64);
+		hero = new Hero(200, 100, 32, 64, "Mage");
 		hero.setBody(world);
 		heros.add(hero);
 		
-		hero = new Hero(200, 100, 32, 64);
+		hero = new Hero(200, 100, 32, 64, "Mage");
+		hero.setBody(world);
+		heros.add(hero);
+		
+		hero = new Hero(2400, 100, 32, 64, "Warrior");
 		hero.setBody(world);
 		heros.add(hero);
 		
@@ -82,7 +89,7 @@ public class FightScreen implements Screen
 		
 		//Fait avancer le world
 		world.step(1/60f, 6, 2);
-	
+		
 		//S'occupe de gerer le input du joueur
 		handleInput();
 		
@@ -98,7 +105,8 @@ public class FightScreen implements Screen
 		
 		//Render du world pour qu'on puisse voir les bodies
 		b2dr.render(world, cam.combined);
-		map.getRenderer().render();
+		//Render la map graphique
+		//map.getRenderer().render();
 		
 	}
 
@@ -144,39 +152,25 @@ public class FightScreen implements Screen
 			if(heros.get(0).isGrounded)
 			{
 				System.out.println("Jump");
-				heros.get(0).getBody().setLinearVelocity(heros.get(0).getBody().getLinearVelocity().x, jump);
-				//heros.get(0).getBody().applyForceToCenter(0, jump, true);
+				heros.get(0).jump();
 			}
 		}
 		
 		else if(GameKeys.isDown(GameKeys.A))
 		{
-			heros.get(0).getBody().setLinearVelocity(-speed, heros.get(0).getBody().getLinearVelocity().y);
-			//heros.get(0).getBody().applyForceToCenter(-speed, 0, true);
+			heros.get(0).move("left");
+			
 		}
 		
 		else if(GameKeys.isDown(GameKeys.D))
 		{
-			heros.get(0).getBody().setLinearVelocity(speed, heros.get(0).getBody().getLinearVelocity().y);
-			//heros.get(0).getBody().applyForceToCenter(speed, 0, true);
+			heros.get(0).move("right");
 		}
 		
 		else if(GameKeys.isDown(GameKeys.S))
 		{
-			heros.get(0).getBody().applyForceToCenter(0, -speed/2, true);
+			//heros.get(0).getBody().applyForceToCenter(0, -speed/2, true);
 		}
 		
-		
-		
-		/*//Pour regarder si la velocite maximum est atteinte
-		if(heros.get(0).getBody().getLinearVelocity().x > heros.get(0).MAX_VELOCITY.x)
-		{
-			heros.get(0).getBody().setLinearVelocity(heros.get(0).MAX_VELOCITY.x, heros.get(0).getBody().getLinearVelocity().y);
-		}
-		else if(heros.get(0).getBody().getLinearVelocity().x < -heros.get(0).MAX_VELOCITY.x)
-		{
-			heros.get(0).getBody().setLinearVelocity(-heros.get(0).MAX_VELOCITY.x, heros.get(0).getBody().getLinearVelocity().y);
-		}*/
 	}
-
 }

@@ -19,8 +19,15 @@ public abstract class GameObject
 		this.height = h / PPM;
 	}
 	
-	public abstract Vector2 getPosition();
-	public abstract void setPosition(float x, float y);
-	public abstract Body getBody();
+	public Body getBody()
+	{
+		return body;
+	}
+	
+	public Vector2 getPosition() 
+	{
+		return body.getPosition();
+	}
+	
 	public abstract void setBody(World w);
 }

@@ -23,18 +23,6 @@ public class StaticObject extends GameObject
 	}
 
 	@Override
-	public void setPosition(float x, float y) 
-	{
-		// TODO Auto-generated method stub	
-	}
-
-	@Override
-	public Body getBody() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public void setBody(World w) 
 	{
 		BodyDef bdef = new BodyDef();

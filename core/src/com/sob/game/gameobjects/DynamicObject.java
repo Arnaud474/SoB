@@ -19,23 +19,6 @@ public class DynamicObject extends GameObject
 		super(x, y, w, h);
 	}
 
-	@Override
-	public Vector2 getPosition() 
-	{
-		return body.getPosition();
-	}
-
-	@Override
-	public void setPosition(float x, float y) 
-	{
-		position = new Vector2(x, y);
-	}
-
-	@Override
-	public Body getBody()
-	{
-		return body;
-	}
 
 	@Override
 	public void setBody(World w) 

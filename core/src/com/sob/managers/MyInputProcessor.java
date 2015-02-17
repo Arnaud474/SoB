@@ -29,7 +29,6 @@ public class MyInputProcessor extends InputAdapter
 	{
 		switch(keycode)
 		{
-		
 			case Keys.W:
 				GameKeys.setKey(GameKeys.W, true);
 				break;
