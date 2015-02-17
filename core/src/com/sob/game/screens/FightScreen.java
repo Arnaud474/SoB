@@ -2,9 +2,13 @@ package com.sob.game.screens;
 
 import static com.sob.game.B2DVars.PPM;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
@@ -49,6 +53,8 @@ public class FightScreen implements Screen
 	@Override
 	public void show() 
 	{
+		createSkills();
+		
 		//Creation du world box2D
 		world = new World(new Vector2(0, -9.8f), true);
 		//Creation du renderer box2D
@@ -172,5 +178,25 @@ public class FightScreen implements Screen
 			//heros.get(0).getBody().applyForceToCenter(0, -speed/2, true);
 		}
 		
+	}
+	
+	public void createSkills()
+	{
+		File folder = new File("bin/properties/skills");
+		File[] listOfFiles = folder.listFiles();
+		
+		Skill tempSkill = new Skill();
+
+		
+		for(File file: listOfFiles)
+		{
+			System.out.println(file.getName());
+			
+			tempSkill.loadSkillFromFile(file.getName());
+			
+			skills.put(tempSkill.getName(), tempSkill);
+		}
+		
+		System.out.println(skills.keySet());
 	}
 }

@@ -21,6 +21,7 @@ public class Hero extends DynamicObject
 	private Integer defense;    //Statistique de defence, definit la defence contre les attaques physiques
 	private Integer resistance; //Statistique de resistance, definit la defence contre les attaques magiques
 	private ArrayList<String> skillSet;	//Liste de skills que le hero peut utiliser
+	private Integer facing = 0;
 	
 	public boolean isGrounded = false;
 
@@ -40,9 +41,17 @@ public class Hero extends DynamicObject
 	public void move(String orientation)
 	{
 		if(orientation == "left")
+		{
 			getBody().setLinearVelocity(-speed, getBody().getLinearVelocity().y);
+			facing = 0;
+		}
 		else if(orientation == "right")
+		{
 			getBody().setLinearVelocity(+speed, getBody().getLinearVelocity().y);
+			facing = 1;
+		}
+		
+		//System.out.println("Facing : "+facing);
 	}
 	
 	//Pour utiliser un skill
