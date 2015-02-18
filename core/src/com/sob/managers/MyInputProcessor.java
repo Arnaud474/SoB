@@ -41,6 +41,21 @@ public class MyInputProcessor extends InputAdapter
 			case Keys.D:
 				GameKeys.setKey(GameKeys.D, true);
 				break;
+			case Keys.NUM_1:
+				GameKeys.setKey(GameKeys.SKILL_1, true);
+				break;
+			case Keys.NUM_2:
+				GameKeys.setKey(GameKeys.SKILL_2, true);
+				break;
+			case Keys.NUM_3:
+				GameKeys.setKey(GameKeys.SKILL_3, true);
+				break;
+			case Keys.NUM_4:
+				GameKeys.setKey(GameKeys.SKILL_4, true);
+				break;
+			case Keys.NUM_5:
+				GameKeys.setKey(GameKeys.SKILL_5, true);
+				break;
 		
 		}
 			
@@ -64,6 +79,21 @@ public class MyInputProcessor extends InputAdapter
 				break;
 			case Keys.D:
 				GameKeys.setKey(GameKeys.D, false);
+				break;
+			case Keys.NUM_1:
+				GameKeys.setKey(GameKeys.SKILL_1, false);
+				break;
+			case Keys.NUM_2:
+				GameKeys.setKey(GameKeys.SKILL_2, false);
+				break;
+			case Keys.NUM_3:
+				GameKeys.setKey(GameKeys.SKILL_3, false);
+				break;
+			case Keys.NUM_4:
+				GameKeys.setKey(GameKeys.SKILL_4, false);
+				break;
+			case Keys.NUM_5:
+				GameKeys.setKey(GameKeys.SKILL_5, false);
 				break;
 		}
 		

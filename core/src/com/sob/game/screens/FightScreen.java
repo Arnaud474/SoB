@@ -29,31 +29,32 @@ import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.sob.managers.B2DContactListener;
 import com.sob.managers.DynamicCamera;
 import com.sob.managers.GameKeys;
+import com.sob.managers.MapT;
 import com.sob.managers.MyInputProcessor;
+import com.sob.managers.SkillManager;
 import com.sob.game.gameobjects.DynamicObject;
 import com.sob.game.gameobjects.Hero;
-import com.sob.game.gameobjects.MapT;
-import com.sob.game.gameobjects.Skill;
 import com.sob.game.gameobjects.StaticObject;
+import com.sob.game.skills.Skill;
 
 
 public class FightScreen implements Screen 
 {
+	private final int PLAYER_ID = 0;
 	private World world;
 	private MapT map;
 	private Box2DDebugRenderer b2dr;
 	private DynamicCamera cam;
 	private ArrayList<Hero> heros = new ArrayList<Hero>();
-	private HashMap<String, Skill> skills = new HashMap<String, Skill>();
+	private SkillManager skillMg = new SkillManager();
 	private Hero hero;
-	private Vector2 movement = new Vector2();
-	private float speed = 5;
-	private float jump = 10;
+	
 
 	@Override
 	public void show() 
 	{
-		createSkills();
+		//Creation de tous les skills qui peuvent etre dans le jeu
+		skillMg.createSkills();
 		
 		//Creation du world box2D
 		world = new World(new Vector2(0, -9.8f), true);
@@ -63,7 +64,7 @@ public class FightScreen implements Screen
 		cam = new DynamicCamera(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM);
 		
 		//Creation du personnage principal
-		hero = new Hero(200, 100, 32, 64, "Mage");
+		hero = new Hero(200, 100, 32, 64, "Warrior");
 		hero.setBody(world);
 		heros.add(hero);
 		
@@ -103,16 +104,16 @@ public class FightScreen implements Screen
 		GameKeys.update();
 		
 		//Positionnement de la camera en fonction du hero
-		//System.out.println(heros.get(0).getBody().getPosition().x +", "+ heros.get(0).getBody().getPosition().y);
+		//System.out.println(heros.get(PLAYER_ID).getBody().getPosition().x +", "+ heros.get(PLAYER_ID).getBody().getPosition().y);
 		//Affichage de la position en bas a gauche de la camera
 		cam.dynamicMovement(heros);
-		//cam.position.set(heros.get(0).getBody().getPosition().x, heros.get(0).getBody().getPosition().y, 0);
+		//cam.position.set(heros.get(PLAYER_ID).getBody().getPosition().x, heros.get(PLAYER_ID).getBody().getPosition().y, 0);
 		cam.update();
 		
 		//Render du world pour qu'on puisse voir les bodies
 		b2dr.render(world, cam.combined);
 		//Render la map graphique
-		//map.getRenderer().render();
+		map.getRenderer().render();
 		
 	}
 
@@ -152,51 +153,70 @@ public class FightScreen implements Screen
 	
 	public void handleInput()
 	{
-		//Si la touche W est pressed
+		//Si la touche W est pressed, la touche pour sauter
 		if(GameKeys.isPressed(GameKeys.W))
 		{
-			if(heros.get(0).isGrounded)
+			if(heros.get(PLAYER_ID).isGrounded)
 			{
 				System.out.println("Jump");
-				heros.get(0).jump();
+				heros.get(PLAYER_ID).jump();
 			}
 		}
 		
+		//Pour bouger a gauche
 		else if(GameKeys.isDown(GameKeys.A))
 		{
-			heros.get(0).move("left");
+			heros.get(PLAYER_ID).move("left");
 			
 		}
 		
+		//Pour bouger a droite
 		else if(GameKeys.isDown(GameKeys.D))
 		{
-			heros.get(0).move("right");
+			heros.get(PLAYER_ID).move("right");
 		}
 		
+		//Pour bouger vers le bas
 		else if(GameKeys.isDown(GameKeys.S))
 		{
-			//heros.get(0).getBody().applyForceToCenter(0, -speed/2, true);
+			//heros.get(PLAYER_ID).getBody().applyForceToCenter(0, -speed/2, true);
 		}
 		
+		//Pour le skill1
+		else if(GameKeys.isPressed(GameKeys.SKILL_1))
+		{
+			//System.out.println("Attaque de base");
+			//System.out.println(heros.get(PLAYER_ID).getSkillSet().get(0));
+			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(0)));
+		}
+		
+		//Pour le skill2
+		else if(GameKeys.isPressed(GameKeys.SKILL_2))
+		{
+			//System.out.println("Skill 1");
+			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(1)));
+		}
+		
+		//Pour le skill3
+		else if(GameKeys.isPressed(GameKeys.SKILL_3))
+		{
+			//System.out.println("Skill 2");	
+			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(2)));
+		}
+		
+		//Pour le skill4
+		else if(GameKeys.isPressed(GameKeys.SKILL_4))
+		{
+			//System.out.println("Skill 3");		
+			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(3)));
+		}
+		
+		//Pour le skill1
+		else if(GameKeys.isPressed(GameKeys.SKILL_5))
+		{
+			//System.out.println("Skill 4");
+			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(4)));
+		}
 	}
 	
-	public void createSkills()
-	{
-		File folder = new File("bin/properties/skills");
-		File[] listOfFiles = folder.listFiles();
-		
-		Skill tempSkill = new Skill();
-
-		
-		for(File file: listOfFiles)
-		{
-			System.out.println(file.getName());
-			
-			tempSkill.loadSkillFromFile(file.getName());
-			
-			skills.put(tempSkill.getName(), tempSkill);
-		}
-		
-		System.out.println(skills.keySet());
-	}
 }

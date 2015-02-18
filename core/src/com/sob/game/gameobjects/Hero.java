@@ -8,7 +8,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Properties;
+
 import javax.swing.filechooser.FileSystemView;
+
+import com.sob.game.skills.Skill;
 
 public class Hero extends DynamicObject 
 {
@@ -55,17 +58,22 @@ public class Hero extends DynamicObject
 	}
 	
 	//Pour utiliser un skill
-	public void useSkill()
+	public void useSkill(Skill skill)
 	{
-		
+		System.out.println(skill.getName());
 	}
 	
 	//Prendre du degat
-	public void takeDamage(Attack a)
+	public void takeDamage(Attack attack)
 	{
 		
 	}
 	
+	public ArrayList<String> getSkillSet() 
+	{
+		return skillSet;
+	}
+
 	//Permet de loader les statistiques du Hero en fonction de sa classe
 	public void loadStatsFromFile(String className)
 	{
@@ -99,7 +107,7 @@ public class Hero extends DynamicObject
 			for(int i = 0; i < 5; i++)
 			{
 				skillSet.add(prop.getProperty("skill"+i).trim());
-				System.out.println(skillSet.get(skillSet.size()-1));
+				//System.out.println(skillSet.get(skillSet.size()-1));
 			}
 			
 		} 
