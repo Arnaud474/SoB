@@ -1,5 +1,6 @@
 package com.sob.game.screens;
 
+import static com.sob.game.B2DVars.PLAYER_ID;
 import static com.sob.game.B2DVars.PPM;
 
 import java.io.File;
@@ -40,16 +41,12 @@ import com.sob.game.skills.Skill;
 
 public class FightScreen implements Screen 
 {
-	private final int PLAYER_ID = 0;
 	private World world;
 	private MapT map;
 	private Box2DDebugRenderer b2dr;
 	private DynamicCamera cam;
-	private ArrayList<Hero> heros = new ArrayList<Hero>();
 	private SkillManager skillMg = new SkillManager();
-	private Hero hero;
 	
-
 	@Override
 	public void show() 
 	{
@@ -63,26 +60,15 @@ public class FightScreen implements Screen
 		//Creation d'une camera orthogonale
 		cam = new DynamicCamera(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM);
 		
-		//Creation du personnage principal
-		hero = new Hero(200, 100, 32, 64, "Warrior");
-		hero.setBody(world);
-		heros.add(hero);
-		
-		hero = new Hero(200, 100, 32, 64, "Mage");
-		hero.setBody(world);
-		heros.add(hero);
-		
-		hero = new Hero(2400, 100, 32, 64, "Warrior");
-		hero.setBody(world);
-		heros.add(hero);
 		
 		//Generation de la map et de son renderer
 		map = new MapT(world, "map/map1.tmx", cam);
 		map.generateB2DObjects();
 		map.generateTiledMapRenderer();
+		map.generateHeroes();
 		
 		//Assignation du contact listener pour les collisions
-		world.setContactListener(new B2DContactListener(heros));
+		world.setContactListener(new B2DContactListener(map.getHeros()));
 		
 		//Assignation du input processor pour gerer les keypress
 		Gdx.input.setInputProcessor(new MyInputProcessor(cam));
@@ -104,10 +90,10 @@ public class FightScreen implements Screen
 		GameKeys.update();
 		
 		//Positionnement de la camera en fonction du hero
-		//System.out.println(heros.get(PLAYER_ID).getBody().getPosition().x +", "+ heros.get(PLAYER_ID).getBody().getPosition().y);
+		//System.out.println(map.getHeros().get(PLAYER_ID).getBody().getPosition().x +", "+ map.getHeros().get(PLAYER_ID).getBody().getPosition().y);
 		//Affichage de la position en bas a gauche de la camera
-		cam.dynamicMovement(heros);
-		//cam.position.set(heros.get(PLAYER_ID).getBody().getPosition().x, heros.get(PLAYER_ID).getBody().getPosition().y, 0);
+		cam.dynamicMovement(map.getHeros());
+		//cam.position.set(map.getHeros().get(PLAYER_ID).getBody().getPosition().x, map.getHeros().get(PLAYER_ID).getBody().getPosition().y, 0);
 		cam.update();
 		
 		//Render du world pour qu'on puisse voir les bodies
@@ -156,66 +142,66 @@ public class FightScreen implements Screen
 		//Si la touche W est pressed, la touche pour sauter
 		if(GameKeys.isPressed(GameKeys.W))
 		{
-			if(heros.get(PLAYER_ID).isGrounded)
+			if(map.getHeros().get(PLAYER_ID).isGrounded)
 			{
 				System.out.println("Jump");
-				heros.get(PLAYER_ID).jump();
+				map.getHeros().get(PLAYER_ID).jump();
 			}
 		}
 		
 		//Pour bouger a gauche
 		else if(GameKeys.isDown(GameKeys.A))
 		{
-			heros.get(PLAYER_ID).move("left");
+			map.getHeros().get(PLAYER_ID).move("left");
 			
 		}
 		
 		//Pour bouger a droite
 		else if(GameKeys.isDown(GameKeys.D))
 		{
-			heros.get(PLAYER_ID).move("right");
+			map.getHeros().get(PLAYER_ID).move("right");
 		}
 		
 		//Pour bouger vers le bas
 		else if(GameKeys.isDown(GameKeys.S))
 		{
-			//heros.get(PLAYER_ID).getBody().applyForceToCenter(0, -speed/2, true);
+			//map.getHeros().get(PLAYER_ID).getBody().applyForceToCenter(0, -speed/2, true);
 		}
 		
 		//Pour le skill1
 		else if(GameKeys.isPressed(GameKeys.SKILL_1))
 		{
 			//System.out.println("Attaque de base");
-			//System.out.println(heros.get(PLAYER_ID).getSkillSet().get(0));
-			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(0)));
+			//System.out.println(map.getHeros().get(PLAYER_ID).getSkillSet().get(0));
+			map.getHeros().get(PLAYER_ID).useSkill(skillMg.getSkills().get(map.getHeros().get(PLAYER_ID).getSkillSet().get(0)));
 		}
 		
 		//Pour le skill2
 		else if(GameKeys.isPressed(GameKeys.SKILL_2))
 		{
 			//System.out.println("Skill 1");
-			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(1)));
+			map.getHeros().get(PLAYER_ID).useSkill(skillMg.getSkills().get(map.getHeros().get(PLAYER_ID).getSkillSet().get(1)));
 		}
 		
 		//Pour le skill3
 		else if(GameKeys.isPressed(GameKeys.SKILL_3))
 		{
 			//System.out.println("Skill 2");	
-			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(2)));
+			map.getHeros().get(PLAYER_ID).useSkill(skillMg.getSkills().get(map.getHeros().get(PLAYER_ID).getSkillSet().get(2)));
 		}
 		
 		//Pour le skill4
 		else if(GameKeys.isPressed(GameKeys.SKILL_4))
 		{
 			//System.out.println("Skill 3");		
-			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(3)));
+			map.getHeros().get(PLAYER_ID).useSkill(skillMg.getSkills().get(map.getHeros().get(PLAYER_ID).getSkillSet().get(3)));
 		}
 		
 		//Pour le skill1
 		else if(GameKeys.isPressed(GameKeys.SKILL_5))
 		{
 			//System.out.println("Skill 4");
-			heros.get(PLAYER_ID).useSkill(skillMg.getSkills().get(heros.get(PLAYER_ID).getSkillSet().get(4)));
+			map.getHeros().get(PLAYER_ID).useSkill(skillMg.getSkills().get(map.getHeros().get(PLAYER_ID).getSkillSet().get(4)));
 		}
 	}
 	

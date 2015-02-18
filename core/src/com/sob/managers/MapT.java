@@ -25,15 +25,23 @@ import com.sob.game.gameobjects.StaticObject;
 
 public class MapT
 {
+	//Le world box 2D utilise pour la physique
 	private World world;
+	//La TiledMap provenant d'un fichier tmx
 	private TiledMap map;
+	//Tous les objects solides sur la map
 	private ArrayList<Body> walls;
+	//Tous les spawn points sur la map
 	private ArrayList<Vector2> spawns;
+	//Renderer pour les textures de la map
 	private OrthogonalTiledMapRenderer renderer;
-	private OrthographicCamera cam;
+	//Camera du monde B2D
+	private DynamicCamera cam;
+	//Liste de tous les heros qui sont sur la map
 	private ArrayList<Hero> heros = new ArrayList<Hero>();
 	
-	public MapT(World parent, String mapName, OrthographicCamera cam) 
+	
+	public MapT(World parent, String mapName, DynamicCamera cam) 
 	{
 		this.world = parent;
 		this.map = new TmxMapLoader().load(mapName);
@@ -90,7 +98,25 @@ public class MapT
 	//Pour generer des heros sur la map
 	public void generateHeroes()
 	{
+		Hero hero;
 		
+		//Creation du personnage principal
+		hero = new Hero(200, 100, 32, 64, "Warrior");
+		hero.setBody(world);
+		heros.add(hero);
+		
+		hero = new Hero(200, 100, 32, 64, "Mage");
+		hero.setBody(world);
+		heros.add(hero);
+		
+		hero = new Hero(2400, 100, 32, 64, "Warrior");
+		hero.setBody(world);
+		heros.add(hero);
+	}
+	
+	public ArrayList<Hero> getHeros() 
+	{
+		return heros;
 	}
 
 }

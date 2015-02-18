@@ -1,5 +1,6 @@
 package com.sob.managers;
 
+import static com.sob.game.B2DVars.PLAYER_ID;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.physics.box2d.Body;
@@ -28,10 +29,10 @@ public class B2DContactListener implements ContactListener
 		//Si l'une des fixtures est le foot et l'autre le ground
 		if(fa.getUserData().equals("foot") && fb.getUserData().equals("ground"))
 		{
-			if(fa.getBody().equals(heros.get(0).getBody()))
+			if(fa.getBody().equals(heros.get(PLAYER_ID).getBody()))
 			{
 				System.out.println("Le hero principal touche au sol");
-				heros.get(0).isGrounded = true;
+				heros.get(PLAYER_ID).isGrounded = true;
 			}
 			else
 			{
@@ -40,10 +41,10 @@ public class B2DContactListener implements ContactListener
 		}
 		else if(fb.getUserData().equals("foot") && fa.getUserData().equals("ground"))
 		{
-			if(fb.getBody().equals(heros.get(0).getBody()))
+			if(fb.getBody().equals(heros.get(PLAYER_ID).getBody()))
 			{
 				System.out.println("Le hero principal touche au sol");
-				heros.get(0).isGrounded = true;
+				heros.get(PLAYER_ID).isGrounded = true;
 			}
 			else
 			{
@@ -63,11 +64,11 @@ public class B2DContactListener implements ContactListener
 		//Si l'une des fixtures est le foot et l'autre le ground
 		if(fa.getUserData().equals("foot") && fb.getUserData().equals("ground"))
 		{
-			if(fa.getBody().equals(heros.get(0).getBody()))
+			if(fa.getBody().equals(heros.get(PLAYER_ID).getBody()))
 			{
 				System.out.println("Le hero principal ne touche plus au sol");
-				heros.get(0).getBody().setLinearDamping(0);
-				heros.get(0).isGrounded = false;
+				heros.get(PLAYER_ID).getBody().setLinearDamping(PLAYER_ID);
+				heros.get(PLAYER_ID).isGrounded = false;
 			}
 			else
 			{
@@ -78,11 +79,11 @@ public class B2DContactListener implements ContactListener
 		{
 			System.out.println("Un fb hero touche au sol");
 			
-			if(fb.getBody().equals(heros.get(0).getBody()))
+			if(fb.getBody().equals(heros.get(PLAYER_ID).getBody()))
 			{
 				System.out.println("Le hero principal ne touche plus au sol");
-				heros.get(0).getBody().setLinearDamping(0);
-				heros.get(0).isGrounded = false;
+				heros.get(PLAYER_ID).getBody().setLinearDamping(PLAYER_ID);
+				heros.get(PLAYER_ID).isGrounded = false;
 			}
 			else
 			{
